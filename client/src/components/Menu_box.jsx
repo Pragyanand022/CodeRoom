@@ -7,6 +7,7 @@ import {
 	faCopy,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 function Menu_box({roomId}) {
 	const [curMenuItem, setCurMenuItem] = useState("members");
@@ -23,7 +24,7 @@ function Menu_box({roomId}) {
 	};
 
 	const leaveRoom = async () => {
-		navigate("/");
+		navigate('/');
 	};
 
 	return (
