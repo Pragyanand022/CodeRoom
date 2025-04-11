@@ -1,14 +1,30 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faUsers,
-    faComments,
-    faClose,
-    faCopy,
+	faUsers,
+	faComments,
+	faClose,
+	faCopy,
 } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
-function Menu_box() {
+function Menu_box({roomId}) {
 	const [curMenuItem, setCurMenuItem] = useState("members");
+	const navigate = useNavigate();
+
+	const copyRoomId = async () => {
+		try {
+			await navigator.clipboard.writeText(roomId);
+			toast.success(`Room ID is copied`);
+		} catch (error) {
+			console.log(error);
+			toast.error("Unable to copy the room ID");
+		}
+	};
+
+	const leaveRoom = async () => {
+		navigate("/");
+	};
 
 	return (
 		<>
@@ -40,17 +56,11 @@ function Menu_box() {
 				</div>
 			</div>
 			<div className="flex gap-4 text-2xl flex-col editor_room_options absolute bottom-6">
-				<div className="copy_room opacity-70 hover:opacity-100 hover:cursor-pointer">
-					<FontAwesomeIcon
-						icon={faCopy}
-						title="copy room id"
-					/>
+				<div className="copy_room opacity-70 hover:opacity-100 hover:cursor-pointer" onClick={copyRoomId}>
+					<FontAwesomeIcon icon={faCopy} title="copy room id" />
 				</div>
-				<div className="leave_room opacity-70 hover:opacity-100 hover:cursor-pointer">
-					<FontAwesomeIcon
-						icon={faClose}
-						title="leave room"
-					/>
+				<div className="leave_room opacity-70 hover:opacity-100 hover:cursor-pointer" onClick={leaveRoom}>
+					<FontAwesomeIcon icon={faClose} title="leave room" />
 				</div>
 			</div>
 		</>

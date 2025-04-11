@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 
 const socketURI = import.meta.env.VITE_socket_URI || 'http://localhost:3000';
 
-export const useSocket = ()=>{
+export const useSocket = async()=>{
     const socketRef = useRef(null);
 
     useEffect(()=>{

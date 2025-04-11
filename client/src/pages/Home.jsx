@@ -3,7 +3,6 @@ import RoomEntryCard from '../components/RoomEntryCard'
 
 function Home() {
   
-  
   return (
     <div className='flex flex-col justify-center items-center min-h-[100vh] lg:gap-[50px] lg:flex-row '>
         <div className="flex-1 homeImage flex items-center justify-center">
