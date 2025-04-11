@@ -9,35 +9,15 @@ function Members_tile() {
         'username':'fsdfasd'
     },
     {
-        'socketId':1,
+        'socketId':2,
         'username':'fsdfasd'
     },
-    {
-        'socketId':1,
-        'username':'fsdfasd'
-    },
-    {
-        'socketId':1,
-        'username':'fsdfasd'
-    },{
-        'socketId':1,
-        'username':'fsdfasd'
-    },{
-        'socketId':1,
-        'username':'fsdfasd'
-    },{
-        'socketId':1,
-        'username':'fsdfasd'
-    },
-    {
-        'socketId':1,
-        'username':'fsdfasd'
-    }];
+    ];
 	return (
 		<>
 			<div className="flex flex-col text-white font-extrabold text-2xl justify-center relative">
 				<h2>Members</h2>
-				<hr className="text-white font-extrabold" />
+				<hr className="text-white font-extrabold mt-1" />
 				<div className="members_list flex flex-wrap mt-5 gap-6">
 					{members.map((member) => (
 						<Members
