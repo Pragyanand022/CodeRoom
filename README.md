@@ -3,6 +3,7 @@
 A real-time collaborative coding platform where you can **code together**, **chat**, and **review code** — all in one place! Built with the **MERN Stack**, powered by **Socket.IO** for real-time communication, and styled with **Tailwind CSS** for a sleek UI.
 
 > 🚀 Code smarter. Review better. Together.
+> ![Home](https://res.cloudinary.com/dqhwr9mpf/image/upload/v1744414676/Screenshot_390_wlgdfe.png)
 
 ---
 
@@ -36,9 +37,7 @@ A real-time collaborative coding platform where you can **code together**, **cha
 
 | Code Editor | Group Chat |
 |-------------|------------|
-| ![Editor](https://user-images.githubusercontent.com/your-screenshot1.png) | ![Chat](https://user-images.githubusercontent.com/your-screenshot2.png) |
-
-_Add your screenshots above by replacing the URLs._
+| ![Editor](https://res.cloudinary.com/dqhwr9mpf/image/upload/v1744414676/Screenshot_391_dfgyqe.png) | ![Chat](https://user-images.githubusercontent.com/your-screenshot2.png) |
 
 ---
 
