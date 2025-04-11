@@ -1,7 +1,9 @@
 import React from 'react'
 import RoomEntryCard from '../components/RoomEntryCard'
+import toast from 'react-hot-toast'
 
 function Home() {
+  toast.success("room is created");
   return (
     <div className='flex flex-col justify-center items-center min-h-[100vh] lg:gap-[50px] lg:flex-row '>
         <div className="flex-1 homeImage flex items-center justify-center">
