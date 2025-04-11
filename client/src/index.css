@@ -8,7 +8,8 @@
   /* color: rgb(24, 198, 198); */
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background: linear-gradient(#121718, #13343e) !important;
+  /* background: linear-gradient(#121718, #13343e) !important; */
+  background: linear-gradient(135deg, #121718, #1b2d33, #13343e);
   background-repeat: no-repeat;
   min-height: 100vh;
 
