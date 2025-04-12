@@ -60,3 +60,19 @@ html, body, #root {
     background-color: #737373;  /* neutral-500 */
   }
 }
+
+@media (max-width:900px) {
+  .mobile-menu-bar{
+    width: 14vw;
+  }
+  .mobile-menu-box{
+    width: 100%;
+  }
+  .editor_box{
+    width: 100%;
+  }
+  .editor-box-header{
+    width: 100%;
+    justify-content: center;
+  }
+}

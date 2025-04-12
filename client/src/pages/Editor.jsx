@@ -14,7 +14,8 @@ import toast from "react-hot-toast";
 import Chat_box from "../components/Chat_box";
 
 function Editor() {
-	const [menuItem, setMenuItem ] = useState('members');
+	const [menuItem, setMenuItem] = useState(null);
+	const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
 	const [members, setMembers] = useState([]);
 	const Location = useLocation();
 
@@ -29,7 +30,7 @@ function Editor() {
 	useEffect(() => {
 		// if (!socket) return;
 		// console.log('socketid is loaded')
-		
+
 		const init = async () => {
 			socketRef.current = await initSocket();
 			socketRef.current.on("connect_error", (err) => handleErrors(err));
@@ -62,7 +63,6 @@ function Editor() {
 							});
 						}
 					}, 100); // delay of 100ms
-					
 				}
 			);
 
@@ -91,30 +91,75 @@ function Editor() {
 		return <Navigate to="/" />;
 	}
 
-	const handleMenuItem = (item) =>{
-		setMenuItem(item);
-	}
+	useEffect(() => {
+		const handleResize = () => setIsMobile(window.innerWidth <= 900);
+
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
+
+	useEffect(()=>{
+		if(!isMobile){
+			setMenuItem('members')
+		}else{
+			setMenuItem(null);
+		}
+	},[isMobile])
+
+	const handleMenuItem = (item) => {
+		if (isMobile) {
+			if (menuItem === item) {
+				setMenuItem(null);
+			} else {
+				setMenuItem(item);
+			}
+		} else {
+			setMenuItem(item);
+		}
+	};
 
 	return (
 		<>
 			<div className="editorPage flex h-screen overflow-hidden">
-				<div className="menu_bar w-[4vw] border-r-2 border-solid border-white relative min-h-[100vh] p-2 overflow-hidden">
+				<div className="menu_bar mobile-menu-bar w-[4vw] border-r-2 border-solid border-white relative min-h-[100vh] p-2 overflow-hidden">
 					<div className="flex flex-col backdrop-blur-sms bg-white/10 min-h-[100vh] p-1 gap-2 items-center text-lg rounded-lg relative group">
-						<Menu_box roomId={roomId} handleMenuItem={handleMenuItem} menuItem={menuItem} username={username}/>
+						<Menu_box
+							roomId={roomId}
+							handleMenuItem={handleMenuItem}
+							menuItem={menuItem}
+							username={username}
+						/>
 					</div>
 				</div>
-				<div className="menu_box w-[20vw] border-r-4 border-solid border-white relative min-h-[100vh] p-2 overflow-hidden">
-					<div className="backdrop-blur-xs bg-white/10 min-h-[100vh] p-1 rounded-lg overflow-hidden">
-					{
-						menuItem==='members' ? <Members_tile members={members} username={username}/> :
-						(menuItem==='chats'  ? <Chat_box socketRef={socketRef} username={username} roomId={roomId}/> : <Members_tile members={members} username={username}/>)
-					}
-						
+				{(!isMobile || menuItem) && (
+					<div className="menu_box mobile-menu-box w-[20vw] border-r-4 border-solid border-white relative min-h-[100vh] p-2 overflow-hidden">
+						<div className="backdrop-blur-xs bg-white/10 min-h-[100vh] p-1 rounded-lg overflow-hidden">
+							{menuItem === "members" && (
+								<Members_tile
+									members={members}
+									username={username}
+								/>
+							)}
+							{menuItem === "chats" && (
+								<Chat_box
+									socketRef={socketRef}
+									username={username}
+									roomId={roomId}
+								/>
+							)}
+						</div>
 					</div>
-				</div>
-				<div className="editor_box m-2 w-[75vw]">
-					<Editor_box socketRef={socketRef} roomId={roomId} codeRef={codeRef}/>
-				</div>
+				)}
+
+				{(!isMobile || menuItem === null) && (
+					<div className="editor_box m-2 w-[75vw]">
+						<Editor_box
+							socketRef={socketRef}
+							roomId={roomId}
+							codeRef={codeRef}
+						/>
+					</div>
+				)}
 			</div>
 		</>
 	);
