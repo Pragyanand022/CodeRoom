@@ -27,13 +27,10 @@ function Editor() {
 	const { roomId } = useParams();
 	const username = Location.state?.username;
 
-	// const socket = useSocket();
 	const socketRef = useRef(null);
 	const codeRef = useRef(null);
 
 	useEffect(() => {
-		// if (!socket) return;
-		// console.log('socketid is loaded')
 
 		const init = async () => {
 			socketRef.current = await initSocket();
