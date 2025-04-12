@@ -37,7 +37,7 @@ A real-time collaborative coding platform where you can **code together**, **cha
 
 | Code Editor | Group Chat |
 |-------------|------------|
-| ![Editor](https://res.cloudinary.com/dqhwr9mpf/image/upload/v1744414676/Screenshot_391_dfgyqe.png) | ![Chat](https://user-images.githubusercontent.com/your-screenshot2.png) |
+| ![Editor](https://res.cloudinary.com/dqhwr9mpf/image/upload/v1744414676/Screenshot_391_dfgyqe.png) | ![Chat](https://res.cloudinary.com/dqhwr9mpf/image/upload/v1744426426/Screenshot_392_yqdyux.png) |
 
 ---
 
