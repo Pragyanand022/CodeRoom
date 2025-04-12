@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT||3000;
 
 const server = createServer(app);
 
@@ -33,7 +33,11 @@ const languageConfig = {
     r: { versionIndex: '3' },
 };
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.ORIGIN,
+    methods: ["GET", "POST"],
+    credentials: true,
+}));
 app.use(express.json());
 
 const io = new Server(server, {

@@ -15,7 +15,6 @@ import Chat_box from "../components/Chat_box";
 import Loader from "../components/Loader";
 
 function Editor() {
-
 	const [isLoading, setIsLoading] = useState(true);
 
 	const [menuItem, setMenuItem] = useState(null);
@@ -31,7 +30,6 @@ function Editor() {
 	const codeRef = useRef(null);
 
 	useEffect(() => {
-
 		const init = async () => {
 			socketRef.current = await initSocket();
 			socketRef.current.on("connect_error", (err) => handleErrors(err));
@@ -99,13 +97,13 @@ function Editor() {
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
 
-	useEffect(()=>{
-		if(!isMobile){
-			setMenuItem('members')
-		}else{
+	useEffect(() => {
+		if (!isMobile) {
+			setMenuItem("members");
+		} else {
 			setMenuItem(null);
 		}
-	},[isMobile])
+	}, [isMobile]);
 
 	const handleMenuItem = (item) => {
 		if (isMobile) {
@@ -121,22 +119,33 @@ function Editor() {
 
 	useEffect(() => {
 		const connectToServer = async () => {
-		  try {
-			await fetch(`${import.meta.env.VITE_CORS_ORIGIN}/ping`);
-			setIsLoading(false);
-		  } catch (err) {
-			console.error("Failed to connect to server", err);
-		  }
+			try {
+				await fetch(`${import.meta.env.VITE_CORS_ORIGIN}/ping`);
+				setIsLoading(false);
+			} catch (err) {
+				console.error("Failed to connect to server", err);
+			}
 		};
-	
+
 		connectToServer();
-	  }, []);
-	
+	}, []);
+
+	useEffect(() => {
+		const setViewportHeight = () => {
+			const vh = window.innerHeight * 0.01;
+			document.documentElement.style.setProperty("--vh", `${vh}px`);
+		};
+
+		setViewportHeight();
+		window.addEventListener("resize", setViewportHeight);
+
+		return () => window.removeEventListener("resize", setViewportHeight);
+	}, []);
 
 	return (
 		<>
-			<div className="editorPage flex h-screen overflow-hidden">
-				{isLoading && <Loader />}
+			<div className="editorPage flex overflow-hidden" style={{ height: 'calc(var(--vh, 1vh) * 100)' }}>
+				{isLoading && <Loader />}{" "}
 				<div className="menu_bar mobile-menu-bar w-[4vw] border-r-2 border-solid border-white relative min-h-[100vh] p-2 overflow-hidden">
 					<div className="flex flex-col backdrop-blur-sms bg-white/10 min-h-[100vh] p-1 gap-2 items-center text-lg rounded-lg relative group">
 						<Menu_box
@@ -166,7 +175,6 @@ function Editor() {
 						</div>
 					</div>
 				)}
-
 				{(!isMobile || menuItem === null) && (
 					<div className="editor_box m-2 w-[75vw]">
 						<Editor_box

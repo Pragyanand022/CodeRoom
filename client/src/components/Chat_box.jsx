@@ -11,8 +11,8 @@ function Chat_box({ socketRef, username, roomId }) {
 	const [msg, setMsg] = useState("");
 	const [chats, setChats] = useState([]);
 
-  // Ref to scroll to the last chat message
-  const chatWrapperRef = useRef(null);
+	// Ref to scroll to the last chat message
+	const chatWrapperRef = useRef(null);
 
 	// === Local Storage Utility Functions ===
 	const saveMessageToLocal = (roomId, message) => {
@@ -36,32 +36,35 @@ function Chat_box({ socketRef, username, roomId }) {
 	}, [roomId]);
 
 	// === Socket listener setup ===
-	const handleNewMessage = useCallback((message) => {
-    setChats((prev) => {
-      if (prev.find(chat => chat.id === message.id)) return prev;
-      const updatedChats = [
-        ...prev,
-        {
-          id: message.id,
-          sender: message.sender,
-          text: message.text,
-          time: message.time,
-        },
-      ];
-      saveMessageToLocal(roomId, message);
+	const handleNewMessage = useCallback(
+		(message) => {
+			setChats((prev) => {
+				if (prev.find((chat) => chat.id === message.id)) return prev;
+				const updatedChats = [
+					...prev,
+					{
+						id: message.id,
+						sender: message.sender,
+						text: message.text,
+						time: message.time,
+					},
+				];
+				saveMessageToLocal(roomId, message);
 
-      return updatedChats;
-    });
-  }, [roomId]);
-  
-  useEffect(() => {
-    const socket = socketRef.current;
-    socket.on(ACTIONS.MSG_LISTENER, handleNewMessage);
-  
-    return () => {
-      socket.off(ACTIONS.MSG_LISTENER, handleNewMessage);
-    };
-  }, [handleNewMessage]);
+				return updatedChats;
+			});
+		},
+		[roomId]
+	);
+
+	useEffect(() => {
+		const socket = socketRef.current;
+		socket.on(ACTIONS.MSG_LISTENER, handleNewMessage);
+
+		return () => {
+			socket.off(ACTIONS.MSG_LISTENER, handleNewMessage);
+		};
+	}, [handleNewMessage]);
 
 	// === Send Message Handler ===
 	const msgHandler = (e) => {
@@ -90,35 +93,37 @@ function Chat_box({ socketRef, username, roomId }) {
 		setMsg("");
 	};
 
-  // Scroll to the last chat message after any update in chats
-  useEffect(() => {
-    if (chatWrapperRef.current) {
-      chatWrapperRef.current.scrollTo({
-        top: chatWrapperRef.current.scrollHeight,
-        behavior: "smooth",
-      });
-  
-    }
-  }, [chats]);
+	// Scroll to the last chat message after any update in chats
+	useEffect(() => {
+		if (chatWrapperRef.current) {
+			chatWrapperRef.current.scrollTo({
+				top: chatWrapperRef.current.scrollHeight,
+				behavior: "smooth",
+			});
+		}
+	}, [chats]);
 
 	return (
 		<>
 			<div className="flex flex-col text-white font-bold text-2xl justify-center h-[100vh]">
 				<h2 className="text-3xl">Chats</h2>
 				<hr className="text-white font-extrabold mt-2	" />
-        <div  ref={chatWrapperRef} className="chat-wrapper custom_scroll overflow-y-auto flex-1">
-          <div className="members_list flex flex-col mt-2 gap-1 ">
-            {chats.map((chat) => (
-              <Chat_card
-                key={chat.id}
-                sender={chat.sender}
-                text={chat.text}
-                time={chat.time}
-                username={username}
-              />
-            ))}
-          </div>
-        </div>
+				<div
+					ref={chatWrapperRef}
+					className="chat-wrapper custom_scroll overflow-y-auto flex-1"
+				>
+					<div className="members_list flex flex-col mt-2 gap-1 ">
+						{chats.map((chat) => (
+							<Chat_card
+								key={chat.id}
+								sender={chat.sender}
+								text={chat.text}
+								time={chat.time}
+								username={username}
+							/>
+						))}
+					</div>
+				</div>
 				<div className="writeMsg bottom-4 bg-[#1f7891] rounded-md max-h-[12rem] mr-2 w-full flex items-end mb-5 mt-2">
 					<textarea
 						rows={1}

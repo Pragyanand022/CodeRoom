@@ -55,7 +55,7 @@ function Menu_box({roomId, handleMenuItem, menuItem}) {
 					/>
 				</div>
 			</div>
-			<div className="flex gap-4 text-2xl flex-col editor_room_options absolute bottom-6">
+			<div className="editor_room_options flex gap-4 text-2xl flex-col absolute bottom-6">
 				<div className="copy_room opacity-60 hover:opacity-100 hover:cursor-pointer" onClick={copyRoomId}>
 					<FontAwesomeIcon icon={faCopy} title="copy room id" />
 				</div>

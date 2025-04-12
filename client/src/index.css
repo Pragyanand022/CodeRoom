@@ -67,12 +67,25 @@ html, body, #root {
   }
   .mobile-menu-box{
     width: 100%;
+    
   }
+
+  .editor_room_options{
+    margin-bottom: 3.2rem;
+  }
+
+  .writeMsg{
+    margin-bottom: 4.8rem;
+  }
+
   .editor_box{
     width: 100%;
   }
   .editor-box-header{
     width: 100%;
     justify-content: center;
+  }
+  .compiler-box{
+    margin-bottom: 3rem;
   }
 }

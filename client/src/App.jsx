@@ -5,10 +5,11 @@ import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
 function App() {
+
 	return (
 		<>
 			<div>
-				<Toaster position="top-right" ></Toaster>
+				<Toaster position="top-right"></Toaster>
 			</div>
 			<Routes>
 				<Route path="/" element={<Home />} />

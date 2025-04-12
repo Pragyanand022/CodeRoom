@@ -33,10 +33,13 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 	const runCode = async () => {
 		setIsCompiling(true);
 		try {
-			const response = await axios.post(import.meta.env.VITE_CORS_ORIGIN, {
-				code: codeRef.current,
-				language: selectedLanguage,
-			});
+			const response = await axios.post(
+				import.meta.env.VITE_CORS_ORIGIN,
+				{
+					code: codeRef.current,
+					language: selectedLanguage,
+				}
+			);
 			console.log("Backend response:", response.data);
 			setOutput(response.data.output || JSON.stringify(response.data));
 		} catch (error) {
@@ -122,7 +125,8 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 					</div>
 					<pre className="bg-gray-700 p-3 rounded whitespace-pre-wrap break-words">
 						<p>
-							{output || "Output will appear here after compilation"}
+							{output ||
+								"Output will appear here after compilation"}
 						</p>
 					</pre>
 				</div>
