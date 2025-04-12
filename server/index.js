@@ -14,6 +14,7 @@ const port = 3000;
 const server = createServer(app);
 
 const languageConfig = {
+    javascript: { versionIndex: '3' },
     python3: { versionIndex: '3' },
     java: { versionIndex: '3' },
     cpp: { versionIndex: '4' },
@@ -79,6 +80,12 @@ io.on("connection", (socket) => {
         io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
     });
 
+    socket.on(ACTIONS.MSG, ({data, roomId})=>{   
+        console.log(data.text, roomId);
+        io.to(roomId).emit(ACTIONS.MSG_LISTENER,(data));
+
+    })
+
     socket.on('disconnecting', () => {
         const rooms = [...socket.rooms];
         rooms.forEach((roomId) => {
@@ -102,7 +109,7 @@ app.post('/compile', async (req, res) => {
             language: language,
             versionIndex: languageConfig[language].versionIndex,
             clientId: process.env.jDoodle_clientId,
-            clientSecret: process.env.kDoodle_clientSecret,
+            clientSecret: process.env.jDoodle_clientSecret,
         });
 
         res.json(response.data);

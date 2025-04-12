@@ -2,7 +2,7 @@ import React from "react";
 // import Members from "./Members";
 import Members from "./Members";
 
-function Members_tile({members}) {
+function Members_tile({members, username:primaryUser}) {
 	// const members = [{
     //     'socketId':1,
     //     'username':'fsdfasd'
@@ -22,6 +22,7 @@ function Members_tile({members}) {
 						<Members
 							key={member.socketId}
 							username={member.username}
+							primaryUser={primaryUser}
 						/>
 					))}
 				</div>

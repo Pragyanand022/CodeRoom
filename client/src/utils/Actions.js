@@ -5,4 +5,6 @@ export const ACTIONS = {
     CODE_CHANGE: "conde-change",
     SYNC_CODE: "sync-code",
     LEAVE: "leave",
+    MSG_LISTENER:"msg-listener",
+    MSG : 'msg',
   };

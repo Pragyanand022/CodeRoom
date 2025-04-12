@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import Editor_panel from "./Editor_panel";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faPlay } from "@fortawesome/free-solid-svg-icons";
+import axios from 'axios';
 
 const LANGUAGES = [
+	"javascript",
 	"python3",
 	"java",
 	"cpp",
@@ -31,7 +33,7 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 	const runCode = async () => {
 		setIsCompiling(true);
 		try {
-			const response = await axios.post("http://localhost:5000/compile", {
+			const response = await axios.post("http://localhost:3000/compile", {
 				code: codeRef.current,
 				language: selectedLanguage,
 			});

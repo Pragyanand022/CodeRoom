@@ -9,8 +9,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
-function Menu_box({roomId}) {
-	const [curMenuItem, setCurMenuItem] = useState("members");
+function Menu_box({roomId, handleMenuItem, menuItem}) {
 	const navigate = useNavigate();
 
 	const copyRoomId = async () => {
@@ -32,35 +31,35 @@ function Menu_box({roomId}) {
 			<div className="flex flex-col gap-4 menu_bar_items absolute top-2">
 				<div
 					className={`menu-item transition-opacity duration-200 ${
-						curMenuItem === "members" ? "opacity-100" : "opacity-70"
+						menuItem === "members" ? "opacity-100" : "opacity-60"
 					} hover:opacity-100 hover:cursor-pointer`}
 				>
 					<FontAwesomeIcon
 						name="members"
 						icon={faUsers}
 						title="Members"
-						onClick={(e) => setCurMenuItem("members")}
+						onClick={()=>handleMenuItem('members')}
 					/>
 				</div>
 
 				<div
 					className={`menu-item transition-opacity duration-200 ${
-						curMenuItem === "chats" ? "opacity-100" : "opacity-70"
+						menuItem === "chats" ? "opacity-100" : "opacity-60"
 					} hover:opacity-100 hover:cursor-pointer`}
 				>
 					<FontAwesomeIcon
 						name="chats"
 						icon={faComments}
 						title="Chats"
-						onClick={(e) => setCurMenuItem("chats")}
+						onClick={()=>handleMenuItem('chats')}
 					/>
 				</div>
 			</div>
 			<div className="flex gap-4 text-2xl flex-col editor_room_options absolute bottom-6">
-				<div className="copy_room opacity-70 hover:opacity-100 hover:cursor-pointer" onClick={copyRoomId}>
+				<div className="copy_room opacity-60 hover:opacity-100 hover:cursor-pointer" onClick={copyRoomId}>
 					<FontAwesomeIcon icon={faCopy} title="copy room id" />
 				</div>
-				<div className="leave_room opacity-70 hover:opacity-100 hover:cursor-pointer" onClick={leaveRoom}>
+				<div className="leave_room opacity-60 hover:opacity-100 hover:cursor-pointer" onClick={leaveRoom}>
 					<FontAwesomeIcon icon={faClose} title="leave room" />
 				</div>
 			</div>
