@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Chat_card from "./Chat_card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +10,9 @@ import { ACTIONS } from "../utils/Actions";
 function Chat_box({ socketRef, username, roomId }) {
 	const [msg, setMsg] = useState("");
 	const [chats, setChats] = useState([]);
+
+  // Ref to scroll to the last chat message
+  const chatWrapperRef = useRef(null);
 
 	// === Local Storage Utility Functions ===
 	const saveMessageToLocal = (roomId, message) => {
@@ -33,31 +36,32 @@ function Chat_box({ socketRef, username, roomId }) {
 	}, [roomId]);
 
 	// === Socket listener setup ===
-	useEffect(() => {
-		const socket = socketRef.current;
+	const handleNewMessage = useCallback((message) => {
+    setChats((prev) => {
+      if (prev.find(chat => chat.id === message.id)) return prev;
+      const updatedChats = [
+        ...prev,
+        {
+          id: message.id,
+          sender: message.sender,
+          text: message.text,
+          time: message.time,
+        },
+      ];
+      saveMessageToLocal(roomId, message);
 
-		const handleNewMessage = (message) => {
-			setChats((prev) => {
-				const updatedChats = [
-					...prev,
-					{
-						id: message.id,
-						sender: message.sender,
-						text: message.text,
-						time: message.time,
-					},
-				];
-				saveMessageToLocal(roomId, message);
-				return updatedChats;
-			});
-		};
-
-		socket.on(ACTIONS.MSG_LISTENER, handleNewMessage);
-
-		return () => {
-			socket.off(ACTIONS.MSG_LISTENER, handleNewMessage);
-		};
-	}, [roomId]);
+      return updatedChats;
+    });
+  }, [roomId]);
+  
+  useEffect(() => {
+    const socket = socketRef.current;
+    socket.on(ACTIONS.MSG_LISTENER, handleNewMessage);
+  
+    return () => {
+      socket.off(ACTIONS.MSG_LISTENER, handleNewMessage);
+    };
+  }, [handleNewMessage]);
 
 	// === Send Message Handler ===
 	const msgHandler = (e) => {
@@ -86,28 +90,41 @@ function Chat_box({ socketRef, username, roomId }) {
 		setMsg("");
 	};
 
+  // Scroll to the last chat message after any update in chats
+  useEffect(() => {
+    if (chatWrapperRef.current) {
+      chatWrapperRef.current.scrollTo({
+        top: chatWrapperRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+  
+    }
+  }, [chats]);
+
 	return (
 		<>
-			<div className="flex flex-col text-white font-bold text-2xl justify-center relative">
+			<div className="flex flex-col text-white font-bold text-2xl justify-center h-[100vh]">
 				<h2 className="text-3xl">Chats</h2>
 				<hr className="text-white font-extrabold mt-2	" />
-				<div className="members_list flex flex-col mt-5 gap-1">
-					{chats.map((chat) => (
-						<Chat_card
-							key={chat.id}
-							sender={chat.sender}
-							text={chat.text}
-							time={chat.time}
-							username={username}
-						/>
-					))}
-				</div>
-				<div className="writeMsg fixed bottom-4 bg-[#1f7891] rounded-md h-max-[30vh] m-1 mr-2 w-[17vw]">
+        <div  ref={chatWrapperRef} className="chat-wrapper custom_scroll overflow-y-auto flex-1">
+          <div className="members_list flex flex-col mt-2 gap-1 ">
+            {chats.map((chat) => (
+              <Chat_card
+                key={chat.id}
+                sender={chat.sender}
+                text={chat.text}
+                time={chat.time}
+                username={username}
+              />
+            ))}
+          </div>
+        </div>
+				<div className="writeMsg bottom-4 bg-[#1f7891] rounded-md max-h-[12rem] m-1 mr-2 w-[17vw] flex items-end mb-5 mt-2">
 					<textarea
 						rows={1}
 						onChange={(e) => setMsg(e.target.value)}
-						className="outline-none custom_scroll resize-none max-h-[10rem] 
-             p-1 text-sm font-medium text-black w-[80%] mt-1.5 ml-1.5 rounded-md bg-[#569fa9ce]"
+						className="outline-none custom_scroll resize-none overflow-y-auto max-h-[11.5rem] 
+             p-1 mb-1.5 text-sm font-medium text-black w-[80%] mt-1.5 ml-1.5 rounded-md bg-[#569fa9ce]"
 						onInput={(e) => {
 							e.target.style.height = "auto";
 							e.target.style.height =
@@ -118,7 +135,7 @@ function Chat_box({ socketRef, username, roomId }) {
 					/>
 					<FontAwesomeIcon
 						icon={faLocationArrow}
-						className="ml-2 rotate-45 text-[#51cadbce] cursor-pointer mb-1"
+						className="ml-2 rotate-45 text-[#51cadbce] cursor-pointer mb-2"
 						title="send"
 						onClick={msgHandler}
 					/>
