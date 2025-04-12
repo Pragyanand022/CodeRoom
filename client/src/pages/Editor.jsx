@@ -12,8 +12,12 @@ import {
 } from "react-router-dom";
 import toast from "react-hot-toast";
 import Chat_box from "../components/Chat_box";
+import Loader from "../components/Loader";
 
 function Editor() {
+
+	const [isLoading, setIsLoading] = useState(true);
+
 	const [menuItem, setMenuItem] = useState(null);
 	const [isMobile, setIsMobile] = useState(window.innerWidth <= 900);
 	const [members, setMembers] = useState([]);
@@ -62,7 +66,7 @@ function Editor() {
 								socketId,
 							});
 						}
-					}, 100); // delay of 100ms
+					}, 100);
 				}
 			);
 
@@ -118,9 +122,24 @@ function Editor() {
 		}
 	};
 
+	useEffect(() => {
+		const connectToServer = async () => {
+		  try {
+			await fetch(`${import.meta.env.VITE_CORS_ORIGIN}/ping`);
+			setIsLoading(false);
+		  } catch (err) {
+			console.error("Failed to connect to server", err);
+		  }
+		};
+	
+		connectToServer();
+	  }, []);
+	
+
 	return (
 		<>
 			<div className="editorPage flex h-screen overflow-hidden">
+				{isLoading && <Loader />}
 				<div className="menu_bar mobile-menu-bar w-[4vw] border-r-2 border-solid border-white relative min-h-[100vh] p-2 overflow-hidden">
 					<div className="flex flex-col backdrop-blur-sms bg-white/10 min-h-[100vh] p-1 gap-2 items-center text-lg rounded-lg relative group">
 						<Menu_box

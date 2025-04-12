@@ -9,7 +9,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 const server = createServer(app);
 
@@ -38,7 +38,7 @@ app.use(express.json());
 
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: process.env.ORIGIN,
         methods: ["GET", "POST"],
         credentials: true,
     }
@@ -119,6 +119,9 @@ app.post('/compile', async (req, res) => {
     }
 });
 
+app.get('/ping',(req,res)=>{
+    res.send('connented');
+})
 
 server.listen(port, () => {
     console.log(`server listening on port ${port}`);

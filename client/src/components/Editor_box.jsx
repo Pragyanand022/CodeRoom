@@ -33,7 +33,7 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 	const runCode = async () => {
 		setIsCompiling(true);
 		try {
-			const response = await axios.post("http://localhost:3000/compile", {
+			const response = await axios.post(import.meta.env.VITE_CORS_ORIGIN, {
 				code: codeRef.current,
 				language: selectedLanguage,
 			});
