@@ -120,31 +120,20 @@ function Editor() {
 	useEffect(() => {
 		const connectToServer = async () => {
 			try {
-				await fetch(`${import.meta.env.VITE_CORS_ORIGIN}/ping`);
-				setIsLoading(false);
+				await fetch(import.meta.env.VITE_CORS_ORIGIN);
 			} catch (err) {
 				console.error("Failed to connect to server", err);
+			}finally{
+				setIsLoading(false);
 			}
 		};
 
 		connectToServer();
 	}, []);
 
-	useEffect(() => {
-		const setViewportHeight = () => {
-			const vh = window.innerHeight * 0.01;
-			document.documentElement.style.setProperty("--vh", `${vh}px`);
-		};
-
-		setViewportHeight();
-		window.addEventListener("resize", setViewportHeight);
-
-		return () => window.removeEventListener("resize", setViewportHeight);
-	}, []);
-
 	return (
 		<>
-			<div className="editorPage flex overflow-hidden" style={{ height: 'calc(var(--vh, 1vh) * 100)' }}>
+			<div className="editorPage h-screen flex overflow-hidden">
 				{isLoading && <Loader />}{" "}
 				<div className="menu_bar mobile-menu-bar w-[4vw] border-r-2 border-solid border-white relative min-h-[100vh] p-2 overflow-hidden">
 					<div className="flex flex-col backdrop-blur-sms bg-white/10 min-h-[100vh] p-1 gap-2 items-center text-lg rounded-lg relative group">
