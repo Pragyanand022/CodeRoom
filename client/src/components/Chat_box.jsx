@@ -38,21 +38,15 @@ function Chat_box({ socketRef, username, roomId }) {
 	// === Socket listener setup ===
 	const handleNewMessage = useCallback(
 		(message) => {
+			let isNew = false;
 			setChats((prev) => {
 				if (prev.find((chat) => chat.id === message.id)) return prev;
-				const updatedChats = [
-					...prev,
-					{
-						id: message.id,
-						sender: message.sender,
-						text: message.text,
-						time: message.time,
-					},
-				];
-				saveMessageToLocal(roomId, message);
-
-				return updatedChats;
+				isNew = true;
+				return [...prev,message];
 			});
+			if (isNew) {
+				saveMessageToLocal(roomId, message);
+			}
 		},
 		[roomId]
 	);
