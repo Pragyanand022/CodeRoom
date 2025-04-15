@@ -12,10 +12,9 @@ const app = express();
 const port = process.env.PORT||3000;
 
 const server = createServer(app);
-const clientURL = process.env.ORIGIN || "http://localhost:5713" ;
+const clientURL = process.env.ORIGIN || "http://localhost:5173" ;
 
 const languageConfig = {
-    javascript: { versionIndex: '3' },
     python3: { versionIndex: '3' },
     java: { versionIndex: '3' },
     cpp: { versionIndex: '4' },
@@ -108,6 +107,7 @@ io.on("connection", (socket) => {
 
 app.post('/compile', async (req, res) => {
     const { code, language } = req.body;
+    console.log(code,language);
 
     try {
         const response = await axios.post('https://api.jdoodle.com/v1/execute', {
