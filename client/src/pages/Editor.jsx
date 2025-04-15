@@ -41,10 +41,12 @@ function Editor() {
 				navigate("/");
 			};
 
-			socketRef.current.emit(ACTIONS.JOIN, {
-				roomId,
-				username: Location.state?.username,
-			});
+			socketRef.current.on("connect", () => {
+				socketRef.current.emit(ACTIONS.JOIN, {
+					roomId,
+					username: Location.state?.username,
+				});
+			})
 
 			socketRef.current.on(
 				ACTIONS.JOINED,

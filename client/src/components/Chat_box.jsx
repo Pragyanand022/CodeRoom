@@ -3,7 +3,6 @@ import Chat_card from "./Chat_card";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
 	faLocationArrow,
-	faPaperPlane,
 } from "@fortawesome/free-solid-svg-icons";
 import { ACTIONS } from "../utils/Actions";
 
