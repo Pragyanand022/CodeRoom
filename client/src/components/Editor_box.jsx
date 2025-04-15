@@ -55,6 +55,11 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 		setIsCompileWindowOpen(!isCompileWindowOpen);
 	};
 
+	const handleLanguageChange = (e) =>{
+		setSelectedLanguage(e.target.value);
+		setOutput("");
+	}
+
 	return (
 		<div>
 			<div className="col-span-10 text-white flex flex-col h-screen overflow-y-auto relative">
@@ -72,7 +77,7 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 					<select
 						className="w-auto bg-[#1f7891] text-white rounded border border-gray-700 p-1 outline-none font-bold text-md"
 						value={selectedLanguage}
-						onChange={(e) => setSelectedLanguage(e.target.value)}
+						onChange={handleLanguageChange}
 					>
 						{LANGUAGES.map((lang) => (
 							<option key={lang} value={lang}>
