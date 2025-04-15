@@ -122,7 +122,7 @@ function Editor() {
 	useEffect(() => {
 		const connectToServer = async () => {
 			try {
-				await fetch(import.meta.env.VITE_CORS_ORIGIN);
+				await fetch(`${import.meta.env.VITE_CORS_ORIGIN}/ping`);
 			} catch (err) {
 				console.error("Failed to connect to server", err);
 			}finally{

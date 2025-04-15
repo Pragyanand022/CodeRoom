@@ -34,7 +34,7 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 		setIsCompiling(true);
 		try {
 			const response = await axios.post(
-				import.meta.env.VITE_CORS_ORIGIN,
+				`${import.meta.env.VITE_CORS_ORIGIN}/compile`,
 				{
 					code: codeRef.current,
 					language: selectedLanguage,

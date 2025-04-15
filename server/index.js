@@ -12,6 +12,7 @@ const app = express();
 const port = process.env.PORT||3000;
 
 const server = createServer(app);
+const clientURL = process.env.ORIGIN || "http://localhost:5713" ;
 
 const languageConfig = {
     javascript: { versionIndex: '3' },
@@ -34,15 +35,16 @@ const languageConfig = {
 };
 
 app.use(cors({
-    origin: process.env.ORIGIN,
+    origin: clientURL,
     methods: ["GET", "POST"],
     credentials: true,
 }));
+
 app.use(express.json());
 
 const io = new Server(server, {
     cors: {
-        origin: process.env.ORIGIN,
+        origin: clientURL,
         methods: ["GET", "POST"],
         credentials: true,
     }
@@ -123,6 +125,9 @@ app.post('/compile', async (req, res) => {
     }
 });
 
+app.get('/',(req,res)=>{
+    res.send('server is listening');
+})
 app.get('/ping',(req,res)=>{
     res.send('connented');
 })

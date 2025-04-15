@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import RoomEntryCard from '../components/RoomEntryCard'
 
 function Home() {
+
+  const socketURI = import.meta.env.VITE_CORS_ORIGIN || 'http://localhost:3000';
+
+  useEffect(()=>{
+    const wake = async()=>{
+      await fetch(`${socketURI}/ping`);
+      // console.log("server started");
+    }
+    wake();
+  },[]);
   
   return (
     <div className='flex flex-col justify-center items-center min-h-[100vh] lg:gap-[50px] lg:flex-row '>
