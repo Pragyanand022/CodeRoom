@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faPlay } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 
+const serverURI = import.meta.env.VITE_CORS_ORIGIN || 'http://localhost:3000';
+
 const LANGUAGES = [
 	"javascript",
 	"python3",
@@ -34,10 +36,10 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 		setIsCompiling(true);
 		try {
 			const response = await axios.post(
-				`${import.meta.env.VITE_CORS_ORIGIN}/compile`,
+				`${serverURI}/compile`,
 				{
 					code: codeRef.current,
-					language: selectedLanguage,
+					language: selectedLanguage==='javascript'?'nodejs':selectedLanguage,
 				}
 			);
 			console.log("Backend response:", response.data);
