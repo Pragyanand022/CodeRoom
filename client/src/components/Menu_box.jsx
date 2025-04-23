@@ -5,6 +5,9 @@ import {
 	faComments,
 	faClose,
 	faCopy,
+	faPlane,
+	faRobot,
+	faCircleQuestion,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -52,6 +55,19 @@ function Menu_box({roomId, handleMenuItem, menuItem}) {
 						icon={faComments}
 						title="Chats"
 						onClick={()=>handleMenuItem('chats')}
+					/>
+				</div>
+
+				<div
+					className={`menu-item transition-opacity duration-200 ${
+						menuItem === "openAI" ? "opacity-100" : "opacity-60"
+					} hover:opacity-100 hover:cursor-pointer`}
+				>
+					<FontAwesomeIcon
+						name="openAI"
+						icon={faRobot}
+						title="AI Assistant"
+						onClick={()=>handleMenuItem('openAI')}
 					/>
 				</div>
 			</div>

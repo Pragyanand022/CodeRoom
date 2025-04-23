@@ -117,12 +117,12 @@ function Chat_box({ socketRef, username, roomId }) {
 						))}
 					</div>
 				</div>
-				<div className="writeMsg bottom-4 bg-[#1f7891] rounded-md max-h-[12rem] mr-2 w-full flex items-end mb-5 mt-2">
+				<div className="writeMsg bottom-4 bg-[#1f7891] rounded-md max-h-[12rem] mr-2 w-full flex items-end mb-5 mt-2 cursor-pointer">
 					<textarea
 						rows={1}
 						onChange={(e) => setMsg(e.target.value)}
 						className="outline-none custom_scroll resize-none overflow-y-auto max-h-[11.5rem] 
-             p-1 mb-1.5 text-sm font-medium text-black w-[85%] mt-1.5 ml-1.5 rounded-md bg-[#569fa9ce]"
+             p-1 mb-1.5 text-sm font-medium text-black w-[85%] mt-1.5 ml-1.5 rounded-md bg-[#569fa9ce] cursor-pointer"
 						onInput={(e) => {
 							e.target.style.height = "auto";
 							e.target.style.height =
@@ -133,7 +133,7 @@ function Chat_box({ socketRef, username, roomId }) {
 					/>
 					<FontAwesomeIcon
 						icon={faLocationArrow}
-						className="ml-2 rotate-45 text-[#51cadbce] cursor-pointer mb-2"
+						className="ml-2 rotate-45 text-[#51cadbce] cursor-pointer mb-2 cursor-pointer"
 						title="send"
 						onClick={msgHandler}
 					/>

@@ -3,6 +3,7 @@ import { initSocket } from "../services/Socket";
 import Members_tile from "../components/Members_tile";
 import Editor_box from "../components/Editor_box";
 import Menu_box from "../components/Menu_box";
+import Assist from "../components/Assist"
 import { ACTIONS } from "../utils/Actions";
 import {
 	useNavigate,
@@ -162,6 +163,9 @@ function Editor() {
 									username={username}
 									roomId={roomId}
 								/>
+							)}
+							{menuItem === "openAI" && (
+								<Assist/>
 							)}
 						</div>
 					</div>

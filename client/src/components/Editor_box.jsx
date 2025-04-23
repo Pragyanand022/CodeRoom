@@ -66,7 +66,7 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 				<div className="editor-box-header flex gap-5 backdrop-blur-lg bg-white/10 w-[75vw] p-2 flex justify-end rounded-lg mb-2">
 					{/* Compiler toggle button */}
 					<button
-						className="bg-[#1f7891] hover:bg-[#569fa9ce] text-white font-bold py-1 px-4 rounded z-[1050]"
+						className="bg-[#1f7891] hover:bg-[#569fa9ce] text-white font-bold py-1 px-4 rounded z-[1050] cursor-pointer"
 						onClick={toggleCompileWindow}
 						style={{ zIndex: 1050 }}
 					>
@@ -75,7 +75,7 @@ function Editor_box({ socketRef, roomId, codeRef }) {
 
 					{/* Language selector */}
 					<select
-						className="w-auto bg-[#1f7891] text-white rounded border border-gray-700 p-1 outline-none font-bold text-md"
+						className="w-auto bg-[#1f7891] text-white rounded border border-gray-700 p-1 outline-none font-bold text-md cursor-pointer"
 						value={selectedLanguage}
 						onChange={handleLanguageChange}
 					>

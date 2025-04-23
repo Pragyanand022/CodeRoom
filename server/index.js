@@ -5,14 +5,16 @@ import cors from 'cors';
 import ACTIONS from './utils/Actions.js';
 import axios from 'axios';
 import dotenv from 'dotenv';
+import OpenAI from "openai";
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT||3000;
+const port = process.env.PORT || 3000;
 
 const server = createServer(app);
-const clientURL = process.env.ORIGIN || "http://localhost:5173" ;
+const clientURL = process.env.ORIGIN || "http://localhost:5173";
+const serverURI = process.env.SERVER_URI || "http://localhost:3000";
 
 const languageConfig = {
     python3: { versionIndex: '3' },
@@ -85,9 +87,9 @@ io.on("connection", (socket) => {
         io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
     });
 
-    socket.on(ACTIONS.MSG, ({data, roomId})=>{   
+    socket.on(ACTIONS.MSG, ({ data, roomId }) => {
         console.log(data.text, roomId);
-        io.to(roomId).emit(ACTIONS.MSG_LISTENER,(data));
+        io.to(roomId).emit(ACTIONS.MSG_LISTENER, (data));
 
     })
 
@@ -107,7 +109,7 @@ io.on("connection", (socket) => {
 
 app.post('/compile', async (req, res) => {
     const { code, language } = req.body;
-    console.log(code,language);
+    console.log(code, language);
 
     try {
         const response = await axios.post('https://api.jdoodle.com/v1/execute', {
@@ -125,10 +127,40 @@ app.post('/compile', async (req, res) => {
     }
 });
 
-app.get('/',(req,res)=>{
+//OpenRouter integration for gpt
+app.post("/ask", async (req, res) => {
+    const { prompt } = req.body;
+    if (!prompt) return res.status(400).json({ error: "No prompt provided" });
+
+    try {
+        const response = await axios.post(
+            "https://openrouter.ai/api/v1/chat/completions",
+            {
+                model: "openai/gpt-3.5-turbo",
+                messages: [{ role: "user", content: prompt }],
+            },
+            {
+                headers: {
+                    Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+                    "HTTP-Referer": serverURI, 
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+
+        const answer = response.data.choices[0].message.content.trim();
+        res.json({ answer });
+    } catch (err) {
+        console.error("OpenRouter error:", err.response?.data || err.message);
+        res.status(500).json({ error: "OpenRouter API error" });
+    }
+});
+
+
+app.get('/', (req, res) => {
     res.send('server is listening');
 })
-app.get('/ping',(req,res)=>{
+app.get('/ping', (req, res) => {
     res.send('connented');
 })
 
